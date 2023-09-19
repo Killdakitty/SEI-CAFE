@@ -1,5 +1,5 @@
-/* CSS Custom Properties */
 :root {
+  --white: #FFFFFF;
   --tan-1: #FBF9F6;
   --tan-2: #E7E2DD;
   --tan-3: #E2D9D1;
@@ -85,7 +85,7 @@ code {
 }
 
 p.error-message {
-  color: var(--orange);
+  color: var(--blue);
   text-align: center;
 }
 
@@ -113,14 +113,14 @@ input {
 }
 
 input:focus {
-  border-color: var(--orange);
+  border-color: var(--blue);
 }
 
 button, a.button {
   margin: 1vmin;
   padding: 1vmin;
   color: var(--white);
-  background-color: var(--orange);
+  background-color: var(--blue);
   font-size: 2vmin;
   font-weight: bold;
   text-decoration: none;

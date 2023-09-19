@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-// import SignUpForm from "../components/SignUpForm";
+import SignUpForm from "../../components/SignUpForm";
 // import LoginForm from "../components/LoginForm/LogInForm";
-import LoginForm from "../components/LoginForm/LoginForm";
+import LoginForm from "../../components/LoginForm/LogInForm";
 import styles from './AuthPage.module.css';
 
 function AuthPage({ setUser }) {

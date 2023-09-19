@@ -14,7 +14,7 @@ function SignUpForm({setUser}) {
 
   const handleSubmit = async (e) => { 
     e.preventDefault(); 
-    
+
     try {
       console.log(formData)
       // data to be send to the backend to create a new user
@@ -42,13 +42,13 @@ function SignUpForm({setUser}) {
         <form autoComplete="off" onSubmit={handleSubmit}>
             <label>Name</label>
             <input type="text" name="name" value={formData.name} onChange={handleChange} required/>
-            
+
             <label>Email</label>
             <input type="text" name="email" value={formData.email} onChange={handleChange} required/>
-            
+
             <label>password</label>
             <input type="password" name="password" value={formData.password} onChange={handleChange} required/>
-            
+
             <label>Confirm</label>
             <input type="password" name="confirm" value={formData.confirm} onChange={handleChange} required/>
 

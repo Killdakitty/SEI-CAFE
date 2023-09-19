@@ -1,60 +1,44 @@
-// * We will use a src/utilities/users-service.js module to organize functions used to sign-up, log in, log out, etc.
+import * as usersApi from "./users-api"; //collect everything on file users-api
 
-//* SignUpForm.jsx <--> users-service.js <--> users-api.js <-Internet-> server.js (Express)
-
-//* handleSubmit <--> [signUp]-users-service <--> [signUp]-users-api <-Internet-> server.js (Express)
-
-import * as usersApi from './users-api';
-
-//* Get Token
-export function getToken() {
-    const token = localStorage.getItem('token');
-    // if there is no token
-    if (!token) return null;
-
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    console.log(payload);
-
-    // if token is expired
-    if (payload.exp < Date.now() / 1000) {
-        localStorage.removeItem('token');
-        return null;
-    }
-
-    // token is valid
-    return token;
-
-}
-
-//* Get User
-export function getUser() {
-    const token = getToken();
-    return token ? JSON.parse(atob(token.split('.')[1])).user : null;
-}
-
-//* SignUp
 export async function signUp(userData) {
-     // Delegate the network request code to the users-api.js API module
-    // which will ultimately return a JSON Web Token (JWT)
-    // console.log('[From SignUP function]', userData);
-    const token = await usersApi.signUp(userData);
-    // saves token to localStorage
-    localStorage.setItem('token', token);
-    
-    return getUser();
-}
-
-//* LogOut
-export function logOut() {
-    localStorage.removeItem('token')
+  //calling the user-api signup function
+  const token = await usersApi.signUp(userData);
+  localStorage.setItem("SEIToken", token); //the name of token can change
+  return getUser();
 }
 
 export async function login(credentials) {
-    const token = await usersApi.login(credentials)
-    localStorage.setItem('token', token);
-    return getUser();
+  const token = await usersApi.login(credentials);
+  localStorage.setItem("SEIToken", token); //the name of token can change
+  return getUser();
+}
+
+export async function logOut() {
+  localStorage.removeItem("SEIToken");
 }
 
 export async function checkToken() {
-    return usersApi.checkToken().then(dateStr => new Date(dateStr))
+ const dateStr = await usersApi.checkToken()
+ return new Date(dateStr)
+}
+
+export function getToken() {
+  // getItem returns null if there's no string
+  const token = localStorage.getItem("SEIToken");
+  if (!token) return null;
+  // Obtain the payload of the token
+  const payload = JSON.parse(atob(token.split(".")[1]));
+  // A JWT's exp is expressed in seconds, not milliseconds, so convert
+  if (payload.exp < Date.now() / 1000) {
+    // Token has expired - remove it from localStorage
+    localStorage.removeItem("SEIToken");
+    return null;
+  }
+  return token;
+}
+
+export function getUser() {
+  const token = getToken();
+  // If there's a token, return the user in the payload, otherwise return null
+  return token ? JSON.parse(atob(token.split(".")[1])).user : null;
 }
